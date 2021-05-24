@@ -129,6 +129,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		this.delegate = createDelegate(getReaderContext(), root, parent);
 
 		if (this.delegate.isDefaultNamespace(root)) {
+			// 处理 profile
 			String profileSpec = root.getAttribute(PROFILE_ATTRIBUTE);
 			if (StringUtils.hasText(profileSpec)) {
 				String[] specifiedProfiles = StringUtils.tokenizeToStringArray(
@@ -144,9 +145,11 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				}
 			}
 		}
-
+		//解析前处理
 		preProcessXml(root);
+		//// 解析
 		parseBeanDefinitions(root, this.delegate);
+		//解析后处理
 		postProcessXml(root);
 
 		this.delegate = parent;
@@ -343,7 +346,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * underlying XML resource, through the corresponding accessors.
 	 * @see #getReaderContext()
 	 */
-	protected void postProcessXml(Element root) {
+	protected void  postProcessXml(Element root) {
 	}
 
 }

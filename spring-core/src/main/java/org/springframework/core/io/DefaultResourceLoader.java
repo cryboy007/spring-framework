@@ -150,16 +150,17 @@ public class DefaultResourceLoader implements ResourceLoader {
 				return resource;
 			}
 		}
-
+		//若 location 以 / 开头，构造 ClassPathContextResource 类型资源并返回。
 		if (location.startsWith("/")) {
 			return getResourceByPath(location);
 		}
+		//若location 以classpath:开头,构造 ClassPathResource
 		else if (location.startsWith(CLASSPATH_URL_PREFIX)) {
 			return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()), getClassLoader());
 		}
 		else {
 			try {
-				// Try to parse the location as a URL...
+				// Try to parse the location as a URL...  构造URL
 				URL url = new URL(location);
 				return (ResourceUtils.isFileURL(url) ? new FileUrlResource(url) : new UrlResource(url));
 			}
